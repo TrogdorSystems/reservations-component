@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-// const morgan = require('morgan');
+const morgan = require('morgan');
 // const webpack = require('webpack');
 // const webpackDevMiddleware = require('webpack-dev-middleware');
 const cors = require('cors');
@@ -17,7 +17,7 @@ const app = express();
 //   publicPath: config.output.publicPath,
 // }));
 app.use(cors());
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.options('*', cors());
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
