@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "babel-plugin-css-modules-transform": "^1.4.0",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^5.0.0",
@@ -77,6 +78,7 @@
     "knex": "^0.14.4",
     "mockdate": "^2.0.2",
     "moment": "^2.20.1",
+    "moment-random": "^1.0.3",
     "moment-timezone": "^0.5.14",
     "morgan": "^1.9.0",
     "pg": "^7.4.1",

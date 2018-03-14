@@ -1,28 +1,32 @@
 require('dotenv').config();
+const path = require('path');
 
 module.exports = {
 
   development: {
     client: 'pg',
     connection: {
-      host: process.env.RDS_HOSTNAME,
-      user: process.env.RDS_USERNAME,
-      password: process.env.RDS_PASSWORD,
-      database: process.env.RDS_DB_NAME,
+      host: process.env.PGHOST,
+      user: process.env.PGUSER,
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE,
     },
     searchPath: ['public'],
     migrations: {
       directory: './server/db/migrations/',
+    },
+    seeds: {
+      directory: path.join(__dirname, '/seeds'),
     },
   },
 
   production: {
     client: 'pg',
     connection: {
-      host: process.env.RDS_HOSTNAME,
-      user: process.env.RDS_USERNAME,
-      password: process.env.RDS_PASSWORD,
-      database: process.env.RDS_DB_NAME,
+      host: process.env.PGHOST,
+      user: process.env.PGUSER,
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE,
     },
     searchPath: ['public'],
     migrations: {

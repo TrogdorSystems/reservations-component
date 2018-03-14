@@ -6,11 +6,11 @@ const { Client } = require('pg');
 // clients will also use environment variables
 // for connection information
 const client = new Client({
-  user: process.env.RDS_USERNAME,
-  password: process.env.RDS_PASSWORD,
-  host: process.env.RDS_HOSTNAME,
-  database: process.env.RDS_DB_NAME,
-  port: process.env.RDS_PORT,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  port: process.env.PORT,
 });
 
 client.connect();
