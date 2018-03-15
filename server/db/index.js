@@ -13,7 +13,8 @@ const client = new Client({
   port: process.env.PORT,
 });
 
-client.connect();
+client.connect()
+  .then(() => console.log('connected!', process.env.PGDATABASE));
 
 client.on('end', () => {
   console.log('pg client end');

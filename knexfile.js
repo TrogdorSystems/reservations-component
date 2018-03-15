@@ -2,7 +2,6 @@ require('dotenv').config();
 const path = require('path');
 
 module.exports = {
-
   development: {
     client: 'pg',
     connection: {
@@ -16,7 +15,7 @@ module.exports = {
       directory: './server/db/migrations/',
     },
     seeds: {
-      directory: path.join(__dirname, '/seeds'),
+      directory: path.join(__dirname, './server/db/seeds'),
     },
   },
 
