@@ -1,13 +1,13 @@
 
 exports.up = (knex, Promise) => Promise.all([
   knex.schema.createTable('restaurants', (table) => {
-    table.increments('id').primary();
+    table.integer('id');
     table.string('name', 140).notNullable();
     table.integer('seats').notNullable();
   }),
 
   knex.schema.createTable('reservations', (table) => {
-    table.increments('restaurantid');
+    table.integer('restaurantid');
     table.date('date').notNullable();
     table.string('time').notNullable();
     table.string('name', 140).notNullable();

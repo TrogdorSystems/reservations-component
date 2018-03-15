@@ -6,7 +6,7 @@ bundle.js
 bundle-prod.js
 
 coverage/
-
+server/.DS_Store
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

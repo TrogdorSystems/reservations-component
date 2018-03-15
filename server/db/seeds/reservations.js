@@ -32,14 +32,12 @@ exports.seed = (knex) => {
     .then(() => {
       const myFunc = (knex) => {
         return new Promise((resolve) => {
-          const result = insert(knex);
-          resolve(result);
+          resolve(insert(knex));
         }).then(() => {
           curr++;
           if (curr < 100) {
             return myFunc(knex);
           }
-          console.log('done!');
           return done;
         });
       };
