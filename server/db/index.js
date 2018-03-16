@@ -27,7 +27,6 @@ client.on('error', (error) => {
 
 const bookingsToday = (restaurantId) => {
   const todayStr = moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
-
   return client.query(
     'SELECT COUNT(id) FROM reservations WHERE restaurantid=$1 AND timestamp=$2',
     [restaurantId, todayStr],

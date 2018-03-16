@@ -1,13 +1,13 @@
 const faker = require('faker');
-const moment = require('moment-timezone');
 const momentRandom = require('moment-random');
+const moment = require('moment');
 const fs = require('fs');
 const { exec } = require('child_process');
 
 const streamResv = fs.createWriteStream('reservation.csv');
 const streamRes = fs.createWriteStream('restaurant.csv');
 
-const pastDate = new Date(2018, 3, 29);
+const pastDate = moment(new Date()).format('YYYY-MM-DD');
 const futureDate = new Date(2018, 6, 29);
 const limit = faker.random.number({ min: 20, max: 60 });
 
@@ -18,7 +18,7 @@ const writeRestaurant = (i) => {
     do {
       n -= 1;
       if (n === 0) {
-        streamRes.write(`"${n}","${faker.company.companyName()}","${faker.random.number({ min: 20, max: 60 })}"\n`);
+        streamRes.write(`"${Math.floor(Math.random() * (i - 0) + 1)}","${faker.company.companyName()}","${faker.random.number({ min: 20, max: 60 })}"\n`);
       } else {
         ok = streamRes.write(`"${n}","${faker.company.companyName()}","${faker.random.number({ min: 20, max: 60 })}"\n`);
       }
@@ -35,7 +35,9 @@ const writeReservations = (n) => {
   const write = () => {
     let ok = true;
     do {
-      i -= 1;
+      if (Math.random() > 0.5) {
+        i -= 1;
+      }
       if (i === 0) {
         streamResv.write(`"${i}","${momentRandom(futureDate, pastDate).format('YYYY-MM-DD')}","${Math.floor((Math.random() * (22 - 17))) + 17}", "${faker.name.findName()}","${Math.min(limit, 1 + Math.floor(10 * Math.random()))}"\n`);
         exec('psql -f copySeed.sql silverspoon', (err, res) => {
@@ -61,6 +63,3 @@ const seed = (n) => {
   writeReservations(n);
 };
 seed(1e7);
-// streamRes.end();
-// writeReservations();
-// streamResv.end();
