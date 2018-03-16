@@ -3,12 +3,13 @@ const momentRandom = require('moment-random');
 const moment = require('moment');
 const fs = require('fs');
 const { exec } = require('child_process');
+const path = require('path');
 
-const streamResv = fs.createWriteStream('reservation.csv');
-const streamRes = fs.createWriteStream('restaurant.csv');
+const streamResv = fs.createWriteStream(path.join(__dirname, 'reservation.csv'));
+const streamRes = fs.createWriteStream(path.join(__dirname, 'restaurant.csv'));
 
 const pastDate = moment(new Date()).format('YYYY-MM-DD');
-const futureDate = new Date(2018, 6, 29);
+const futureDate = moment(new Date()).add(14, 'days').format('YYYY-MM-DD');
 const limit = faker.random.number({ min: 20, max: 60 });
 
 const writeRestaurant = (i) => {
@@ -18,7 +19,7 @@ const writeRestaurant = (i) => {
     do {
       n -= 1;
       if (n === 0) {
-        streamRes.write(`"${Math.floor(Math.random() * (i - 0) + 1)}","${faker.company.companyName()}","${faker.random.number({ min: 20, max: 60 })}"\n`);
+        streamRes.write(`"${Math.floor((Math.random() * (i - 0)) + 1)}","${faker.company.companyName()}","${faker.random.number({ min: 20, max: 60 })}"\n`);
       } else {
         ok = streamRes.write(`"${n}","${faker.company.companyName()}","${faker.random.number({ min: 20, max: 60 })}"\n`);
       }

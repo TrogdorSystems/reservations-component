@@ -10,7 +10,7 @@
     "test:coverage": "./node_modules/.bin/jest --coverage",
     "build": "./node_modules/.bin/webpack",
     "build:prod": "./node_modules/.bin/webpack --config './webpack.prod.config.js'",
-    "build:watch": "./node_modules/.bin/webpack -w",
+    "build:watch": "./node_modules/.bin/webpack --watch",
     "server-dev": "./node_modules/.bin/nodemon --inspect ./server/server.js",
     "lint": "./node_modules/.bin/eslint .",
     "seed": "node ./server/db/csvSeed.js"

@@ -9,7 +9,7 @@ exports.up = (knex, Promise) => Promise.all([
   knex.schema.createTable('reservations', (table) => {
     table.integer('restaurantid');
     table.date('date').notNullable();
-    table.string('time').notNullable();
+    table.integer('time').notNullable();
     table.string('name', 140).notNullable();
     table.integer('party').notNullable();
     table.date('timestamp').defaultTo(knex.fn.now());
