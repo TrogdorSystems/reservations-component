@@ -4,7 +4,7 @@
   "description": "SilverSpoon reservations component",
   "main": "./server/server.js",
   "scripts": {
-    "start": "node ./server/server.js",
+    "start": "nodemon ./server/server.js",
     "test": "./node_modules/.bin/jest",
     "test:watch": "./node_modules/.bin/jest --watch",
     "test:coverage": "./node_modules/.bin/jest --coverage",
@@ -13,7 +13,7 @@
     "build:watch": "./node_modules/.bin/webpack -w",
     "server-dev": "./node_modules/.bin/nodemon --inspect ./server/server.js",
     "lint": "./node_modules/.bin/eslint .",
-    "seed": "node ./server/db/seed.js"
+    "seed": "node ./server/db/csvSeed.js"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/client/src/components/setupTests.js",
@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "babel-plugin-css-modules-transform": "^1.4.0",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^5.0.0",
@@ -76,7 +77,8 @@
     "jquery": "^3.3.1",
     "knex": "^0.14.4",
     "mockdate": "^2.0.2",
-    "moment": "^2.20.1",
+    "moment": "^2.21.0",
+    "moment-random": "^1.0.3",
     "moment-timezone": "^0.5.14",
     "morgan": "^1.9.0",
     "pg": "^7.4.1",

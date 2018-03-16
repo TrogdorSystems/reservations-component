@@ -4,9 +4,10 @@ node_modules
 
 bundle.js
 bundle-prod.js
+package-lock.json
 
 coverage/
-
+server/.DS_Store
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

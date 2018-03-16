@@ -6,14 +6,15 @@ const { Client } = require('pg');
 // clients will also use environment variables
 // for connection information
 const client = new Client({
-  user: process.env.RDS_USERNAME,
-  password: process.env.RDS_PASSWORD,
-  host: process.env.RDS_HOSTNAME,
-  database: process.env.RDS_DB_NAME,
-  port: process.env.RDS_PORT,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  port: process.env.PORT,
 });
 
-client.connect();
+client.connect()
+  .then(() => console.log('connected!', process.env.PGDATABASE));
 
 client.on('end', () => {
   console.log('pg client end');
@@ -26,7 +27,6 @@ client.on('error', (error) => {
 
 const bookingsToday = (restaurantId) => {
   const todayStr = moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
-
   return client.query(
     'SELECT COUNT(id) FROM reservations WHERE restaurantid=$1 AND timestamp=$2',
     [restaurantId, todayStr],
