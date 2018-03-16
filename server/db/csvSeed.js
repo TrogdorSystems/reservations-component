@@ -42,7 +42,7 @@ const writeReservations = (n) => {
         streamResv.write(`"${i}","${momentRandom(futureDate, pastDate).format('YYYY-MM-DD')}","${Math.floor((Math.random() * (22 - 17))) + 17}", "${faker.name.findName()}","${Math.min(limit, 1 + Math.floor(10 * Math.random()))}"\n`);
         exec('psql -f copySeed.sql silverspoon', (err, res) => {
           if (err) {
-            console.log(err);
+            throw new Error(err);
           } else {
             console.log(res);
           }
