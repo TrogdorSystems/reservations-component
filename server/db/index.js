@@ -1,27 +1,27 @@
 const moment = require('moment-timezone');
 
 require('dotenv').config();
-const { Client } = require('pg');
+// const { Client } = require('pg');
 
-// clients will also use environment variables
-// for connection information
-const client = new Client({
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  port: process.env.PORT,
-});
+// // clients will also use environment variables
+// // for connection information
+// const client = new Client({
+//   user: process.env.PGUSER,
+//   password: process.env.PGPASSWORD,
+//   host: process.env.PGHOST,
+//   database: process.env.PGDATABASE,
+//   port: process.env.PORT,
+// });
 
-client.connect();
+// client.connect();
 
-client.on('end', () => {
-  console.log('pg client end');
-});
+// client.on('end', () => {
+//   console.log('pg client end');
+// });
 
-client.on('error', (error) => {
-  console.error('pg client error', error);
-});
+// client.on('error', (error) => {
+//   console.error('pg client error', error);
+// });
 
 
 const bookingsToday = (restaurantId) => {
