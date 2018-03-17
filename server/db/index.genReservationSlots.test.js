@@ -7,7 +7,7 @@ jest.mock('pg', () => ({
     end: () => {},
     query: (query) => {
       // console.log('mock factory function', query, params);
-      if (query === 'SELECT COUNT(id) FROM reservations WHERE restaurantid=$1 AND timestamp=$2') {
+      if (query === 'SELECT COUNT(restaurantid) FROM reservations WHERE restaurantid=$1 AND timestamp=$2') {
         return new Promise((resolve) => {
           resolve({
             rows: [{ count: 199 }],
@@ -49,7 +49,7 @@ describe('db helpers w/live database', () => {
   });
 
   describe('genReservationSlots', () => {
-    test('should return data in the right shape', () => db.genReservationSlots({ restaurantId: 305, date: '04-01-2018' })
+    test('should return data in the right shape', () => db.genReservationSlots({ restaurantId: 305, date: '2018-4-13' })
       .then((results) => {
         // expect(true).toBe(false);
         const expectedObj = {

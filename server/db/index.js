@@ -13,8 +13,7 @@ const client = new Client({
   port: process.env.PORT,
 });
 
-client.connect()
-  .then(() => console.log('connected!', process.env.PGDATABASE));
+client.connect();
 
 client.on('end', () => {
   console.log('pg client end');
@@ -56,7 +55,6 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
     // results[0] has the # bookings made info
     // results[1] has the timeslot & remaining seats info
     // results[2] has the max seats for the restaurant
-
     // create default reservations array with default values
     const returnedSlots = results[1].rows.map(row => ({
       time: row.time,
