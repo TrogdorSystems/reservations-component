@@ -2,8 +2,9 @@ const faker = require('faker');
 const momentRandom = require('moment-random');
 const moment = require('moment');
 const fs = require('fs');
-// const { exec } = require('child_process');
+const { exec } = require('child_process');
 const path = require('path');
+const Promise = require('bluebird');
 
 const streamRes = fs.createWriteStream(path.join(__dirname, 'restaurant.json'));
 
@@ -30,7 +31,16 @@ const writeRestaurant = (n) => {
       };
       if (i === 0) {
         streamRes.write(JSON.stringify(writeable));
-        console.log('done!');
+        const command = 'mongoimport -d silverspoonMDB -c restaurants --file db/resturant.json --type json --numInsertionWorkers 4';
+        exec(command, (err, done) => new Promise((resolve, reject) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(done);
+          }
+        }).then((result) => {
+          exec()
+        }));
       } else {
         ok = streamRes.write(JSON.stringify(writeable));
       }

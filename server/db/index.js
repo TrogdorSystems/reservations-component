@@ -1,4 +1,5 @@
 const moment = require('moment-timezone');
+const restaurant = require('./models/restaurant')
 
 require('dotenv').config();
 // const { Client } = require('pg');
@@ -107,7 +108,6 @@ const addRestaurantInfo = ({
 );
 
 module.exports = {
-  client,
   bookingsToday,
   getOpenSeats,
   getMaxSeats,

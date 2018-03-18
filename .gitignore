@@ -4,6 +4,7 @@ node_modules
 
 bundle.js
 bundle-prod.js
+server/db/restaurant.json
 
 coverage/
 server/.DS_Store
