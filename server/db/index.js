@@ -1,5 +1,5 @@
 const moment = require('moment-timezone');
-const restaurant = require('./models/restaurant')
+const restaurant = require('./models/restaurant');
 
 require('dotenv').config();
 // const { Client } = require('pg');
@@ -27,25 +27,41 @@ require('dotenv').config();
 
 const bookingsToday = (restaurantId) => {
   const todayStr = moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
-  return client.query(
-    'SELECT COUNT(restaurantid) FROM reservations WHERE restaurantid=$1 AND timestamp=$2',
-    [restaurantId, todayStr],
-  );
+  return restaurant.getBookingsForDate(restaurantId, todayStr)
+    .then(res => res);
+  // client.query(
+  //   'SELECT COUNT(restaurantid) FROM reservations WHERE restaurantid=$1 AND timestamp=$2',
+  //   [restaurantId, todayStr],
+  // );
 };
+// console.log(bookingsToday(3000));
 
 const getOpenSeats = ({
   restaurantId, date,
-}) => client.query(
-  'SELECT time,(MAX(restaurants.seats)-SUM(party)) AS remaining FROM reservations INNER JOIN restaurants ON restaurants.id = reservations.restaurantid WHERE date=$1 AND restaurantid=$2 GROUP BY time',
-  [date, restaurantId],
-);
+}) => restaurant.getBookingsForDate(restaurantId, date)
+  .then((res) => {
+    let remainingSeats = res.reduce((acc, curr) => {
+      if (acc[curr.time]) {
+        acc[curr.time] += curr.party;
+      } else {
+        acc[curr.time] = curr.party;
+      }
+      return acc;
+    }, {})
+  });
 
+// client.query(
+//   'SELECT time,(MAX(restaurants.seats)-SUM(party)) AS remaining FROM reservations INNER JOIN restaurants ON restaurants.id = reservations.restaurantid WHERE date=$1 AND restaurantid=$2 GROUP BY time',
+//   [date, restaurantId],
+// );
 
-const getMaxSeats = restaurantId => client.query(
-  'SELECT seats FROM restaurants WHERE id=$1',
-  [restaurantId],
-);
-
+// console.log(getOpenSeats({restaurantId: 3000, date: '2018-03-21'}))
+const getMaxSeats = restaurantId => restaurant.getMaxSeats(restaurantId);
+// client.query(
+//   'SELECT seats FROM restaurants WHERE id=$1',
+//   [restaurantId],
+// );
+console.log(getMaxSeats(3000))
 
 const genReservationSlots = ({ restaurantId, date }) => Promise.all([
   bookingsToday(restaurantId),
@@ -80,6 +96,8 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
     };
     return output;
   });
+
+// console.log(getOpenSeats(3000, '2018-3-20'));
 
 
 const addReservation = ({

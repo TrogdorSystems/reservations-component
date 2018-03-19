@@ -3,7 +3,6 @@ require('dotenv').config();
 const Promise = require('bluebird');
 
 mongoose.connect(`mongodb://${process.env.MONGOHOST}/${process.env.MONGODATABASE}`);
-console.log(process.env.MONGOHOST, process.env.MONGODATABASE);
 const restaurantSchema = mongoose.Schema({
   id: {
     type: Number,
@@ -28,23 +27,30 @@ const findById = id => (
   RestaurantModel.find({ id })
 );
 
-const getTimes = restaurantId => (
-  findById(restaurantId)
-).then(res => res[0].reservations.map(time => time.time));
+console.time(findById(3000).then(res => res))
 
-const getTimesandReservationsforDate = restaurantId => Promise.all([getTimes(restaurantId), findById(restaurantId)]);
+const getBookingsForDate = (id, date) => (
+  findById(id)
+    .then(res =>
+      (res[0].reservations.filter(r => r.date.toISOString().slice(0, r.date.toISOString().indexOf('T')) === date)
+        .map(i => ({
+          time: i.time,
+          party: i.party,
+          seats: res[0].seats,
+        }))))
+    .catch(() => 'No reservations made yet')
+);
 
-getTimesandReservationsforDate(3000)
-  .then((res) => {
-    return res[1][0].reservations.map(i => i.date === '2018-3-17');
-  });
-
-const getOpenSeats = (id, date) => {
-  return getTimesandReservationsforDate(id);
-}
+const getMaxSeats = id => (
+  findById(id)
+    .then(res => res[0].seats)
+);
 // getOpenSeats(3000, '2018-3-18')
 //   .then(res => console.log(res));
-// findById(3000)
+// findById(3000).then(res => console.log(res[0].reservations))
 //   .then(res => console.log(res));
 
 exports.findById = findById;
+exports.getBookingsForDate = getBookingsForDate;
+exports.getMaxSeats = getMaxSeats;
+// exports.getTimesandReservationsforDate = getTimesandReservationsforDate;
