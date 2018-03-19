@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const Promise = require('bluebird');
 
 mongoose.connect(`mongodb://${process.env.MONGOHOST}/${process.env.MONGODATABASE}`);
 const restaurantSchema = mongoose.Schema({
@@ -53,4 +52,5 @@ const getMaxSeats = id => (
 exports.findById = findById;
 exports.getBookingsForDate = getBookingsForDate;
 exports.getMaxSeats = getMaxSeats;
+exports.mongoose = mongoose;
 // exports.getTimesandReservationsforDate = getTimesandReservationsforDate;

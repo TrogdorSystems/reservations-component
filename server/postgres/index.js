@@ -1,47 +1,50 @@
 const moment = require('moment-timezone');
-const restaurant = require('./models/restaurant');
+
+require('dotenv').config();
+const { Pool } = require('pg');
+
+// clients will also use environment variables
+// for connection information
+const client = new Pool({
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  port: process.env.PORT,
+});
+
+// client.connect(); 
+
+client.on('end', () => {
+  console.log('pg client end');
+});
+
+client.on('error', (error) => {
+  console.error('pg client error', error);
+});
+
 
 const bookingsToday = (restaurantId) => {
   const todayStr = moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
-  return restaurant.getBookingsForDate(restaurantId, todayStr);
+  return client.query(
+    'SELECT COUNT(restaurantid) FROM reservations WHERE restaurantid=$1 AND timestamp=$2',
+    [restaurantId, todayStr],
+  );
 };
-// console.log(bookingsToday(3000));
-
-const getMaxSeats = restaurantId => restaurant.getMaxSeats(restaurantId);
 
 const getOpenSeats = ({
   restaurantId, date,
-}) => restaurant.getBookingsForDate(restaurantId, date)
-  .then((res) => {
-    let remainingSeats = res.reduce((acc, curr) => {
-      if (acc[curr.time]) {
-        acc[curr.time] += curr.party;
-      } else {
-        acc[curr.time] = curr.party;
-      }
-      return acc;
-    }, {});
-    return remainingSeats;
-  })
-  .then(remaining => (
-    getMaxSeats(restaurantId).then(res => res - Object.entries(remaining).reduce((acc, curr) => {
-      acc += curr[1];
-      return acc;
-    }, 0))
-    .then((result) => {remaining})
-  ));
+}) => client.query(
+  'SELECT time,(MAX(restaurants.seats)-SUM(party)) AS remaining FROM reservations INNER JOIN restaurants ON restaurants.id = reservations.restaurantid WHERE date=$1 AND restaurantid=$2 GROUP BY time',
+  [date, restaurantId],
+);
 
-// client.query(
-//   'SELECT time,(MAX(restaurants.seats)-SUM(party)) AS remaining FROM reservations INNER JOIN restaurants ON restaurants.id = reservations.restaurantid WHERE date=$1 AND restaurantid=$2 GROUP BY time',
-//   [date, restaurantId],
-// );
 
-console.log(getOpenSeats({restaurantId: 3000, date: '2018-03-21'}))
-// client.query(
-//   'SELECT seats FROM restaurants WHERE id=$1',
-//   [restaurantId],
-// );
-console.log(getMaxSeats(3000))
+const getMaxSeats = restaurantId => client.query(
+  'SELECT seats FROM restaurants WHERE id=$1',
+  [restaurantId],
+);
+
 
 const genReservationSlots = ({ restaurantId, date }) => Promise.all([
   bookingsToday(restaurantId),
@@ -77,8 +80,6 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
     return output;
   });
 
-// console.log(getOpenSeats(3000, '2018-3-20'));
-
 
 const addReservation = ({
   restaurantId, date, time, name, party,
@@ -106,6 +107,7 @@ const addRestaurantInfo = ({
 );
 
 module.exports = {
+  client,
   bookingsToday,
   getOpenSeats,
   getMaxSeats,
