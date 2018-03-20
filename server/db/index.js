@@ -12,17 +12,14 @@ const getMaxSeats = restaurantId => restaurant.getMaxSeats(restaurantId);
 const getOpenSeats = ({
   restaurantId, date,
 }) => restaurant.getBookingsForDate(restaurantId, date)
-  .then((res) => {
-    const seatsBookedAtTime = res.reduce((acc, curr) => {
-      if (acc[curr.time]) {
-        acc[curr.time] += curr.party;
-      } else {
-        acc[curr.time] = curr.party;
-      }
-      return acc;
-    }, {});
-    return seatsBookedAtTime;
-  })
+  .then(res => res.reduce((acc, curr) => {
+    if (acc[curr.time]) {
+      acc[curr.time] += curr.party;
+    } else {
+      acc[curr.time] = curr.party;
+    }
+    return acc;
+  }, {}))
   .then(seatsBooked => (
     getMaxSeats(restaurantId).then(res => (
       Object.entries(seatsBooked).map(i => ({
