@@ -9,7 +9,7 @@ const Promise = require('bluebird');
 const streamRes = fs.createWriteStream(path.join(__dirname, 'restaurant.json'));
 
 const pastDate = moment(new Date()).format('YYYY-MM-DD');
-const futureDate = moment(new Date()).add(14, 'days').format('YYYY-MM-DD');
+const futureDate = moment(new Date()).add(7, 'days').format('YYYY-MM-DD');
 const limit = faker.random.number({ min: 20, max: 60 });
 
 const writeRestaurant = (n) => {
@@ -22,7 +22,7 @@ const writeRestaurant = (n) => {
         id: i,
         name: faker.company.companyName(),
         seats: faker.random.number({ min: 20, max: 60 }),
-        reservations: Array(Math.floor(Math.random() * 4)).fill(0).map(() => ({
+        reservations: Array(Math.floor(Math.random() * 5)).fill(0).map(() => ({
           date: momentRandom(futureDate, pastDate).format('YYYY-MM-DD'),
           time: Math.floor((Math.random() * (22 - 17))) + 17,
           name: faker.name.findName(),
@@ -38,9 +38,7 @@ const writeRestaurant = (n) => {
           } else {
             resolve(done);
           }
-        }).then((result) => {
-          exec()
-        }));
+        }).then(() => exec()));
       } else {
         ok = streamRes.write(JSON.stringify(writeable));
       }

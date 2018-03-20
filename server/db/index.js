@@ -1,8 +1,8 @@
 const moment = require('moment-timezone');
 const restaurant = require('./models/restaurant');
 
-const bookingsToday = (restaurantId) => {
-  const todayStr = moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
+const bookingsToday = (restaurantId, todayStr) => {
+  todayStr = todayStr || moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
   return restaurant.getBookingsForDate(restaurantId, todayStr);
 };
 // console.log(bookingsToday(3000));
@@ -30,7 +30,7 @@ const getOpenSeats = ({
   ));
 
 const genReservationSlots = ({ restaurantId, date }) => Promise.all([
-  bookingsToday(restaurantId),
+  bookingsToday(restaurantId, date),
   getOpenSeats({ restaurantId, date }),
   getMaxSeats(restaurantId),
 ])
@@ -47,7 +47,7 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
     returnedSlots.sort((a, b) => (a.time - b.time));
 
     const output = {
-      madeToday: Number(results[0]) || 0,
+      madeToday: results[0].length,
       reservations: returnedSlots,
     };
 
@@ -60,7 +60,7 @@ const addReservation = ({
   .then((slots) => {
     const requestedSlot = slots.reservations.find(item => item.time === time);
     if (requestedSlot.remaining >= party) {
-      restaurant.findOneAndUpdate(restaurantId, date, time, name, party)
+      restaurant.findOneAndUpdate(restaurantId, date, time, name, party);
     } else {
       throw new Error('Restaurant cannot take a party of that size!');
     }

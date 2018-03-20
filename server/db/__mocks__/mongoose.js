@@ -34,17 +34,21 @@ const mongoose = {
           }]);
         });
       }
+      throw new Error('no id!!');
     },
     getBookingsForDate: (id, date) => {
-      return new Promise((resolve) => {
-        resolve([
-          { time: 17, remaining: 40 },
-          { time: 18, remaining: 0 },
-          { time: 19, remaining: 10 },
-          { time: 20, remaining: 25 },
-          { time: 21, remaining: 30 },
-        ]);
-      });
+      if (id && date) {
+        return new Promise((resolve) => {
+          resolve([
+            { time: 17, remaining: 40 },
+            { time: 18, remaining: 0 },
+            { time: 19, remaining: 10 },
+            { time: 20, remaining: 25 },
+            { time: 21, remaining: 30 },
+          ]);
+        });
+      }
+      throw new Error('Failure! - get bookings for date');
     },
     getMaxSeats: () => new Promise((resolve) => {
       resolve([{
@@ -52,7 +56,10 @@ const mongoose = {
       }]);
     }),
     findOneAndUpdate: (id, date, time, name, party) => new Promise((resolve) => {
-      resolve();
+      if (id && date && time && name && party) {
+        resolve();
+      }
+      throw new Error('error! find one and update');
     }),
     create: () => new Promise(resolve => resolve([{
       id: 314756,
