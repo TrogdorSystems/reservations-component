@@ -60,10 +60,6 @@ const mongoose = {
       seats: 30,
     }])),
   }),
-  findById: () => new Promise(resolve => resolve([{ seats: 250 }])),
-  RestaurantModel: () => ({
-    
-  }),
 };
 
 // mongoose.prototype = mongoose;

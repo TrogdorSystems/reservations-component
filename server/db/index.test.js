@@ -11,21 +11,19 @@ describe('db/index.js', () => {
   });
 
   describe('bookingsToday', () => {
-    // test('should run count reservations made today for a restaurant', () => {
-    //   const restaurantId = 305;
-    //   const today = moment.tz('America/Los_Angeles').format('YYYY-MM-DD');
-    //   db.bookingsToday(restaurantId)
-    //     .then((result) => {
-    //       console.log(result)
-    //       // expect(result.query).toBe('SELECT COUNT(restaurantId) FROM reservations WHERE restaurantid=$1 AND timestamp=$2');
-    //       expect(result.params).toHaveLength(2);
-    //       expect(result.params).toEqual(expect.arrayContaining([
-    //         restaurantId, today]));
-    //     })
-    //     .catch((error) => {
-    //       expect(error).toBe(false);
-    //     });
-    // });
+    test('should run count reservations made today for a restaurant', () => {
+      const restaurantId = 305;
+      const today = moment.tz('America/Los_Angeles').format('YYYY-MM-DD');
+      db.bookingsToday(restaurantId)
+        .then((result) => {
+          expect(result.params).toHaveLength(2);
+          expect(result.params).toEqual(expect.arrayContaining([
+            restaurantId, today]));
+        })
+        .catch((error) => {
+          expect(error).toBe(false);
+        });
+    });
   });
 
   describe('getOpenSeats', () => {
@@ -49,8 +47,6 @@ describe('db/index.js', () => {
       const restaurantId = 305;
       db.getMaxSeats(restaurantId)
         .then((result) => {
-          console.log('get max seats', result);
-          // expect(result.params).toHaveLength(1);
           expect(result.params).toEqual(expect.arrayContaining([restaurantId]));
         })
         .catch((error) => {
