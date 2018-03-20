@@ -52,17 +52,11 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
   getMaxSeats(restaurantId),
 ])
   .then((results) => {
-    // results[0] has the # bookings made info
-    // results[1] has the timeslot & remaining seats info
-    // results[2] has the max seats for the restaurant
-    // create default reservations array with default values
     const returnedSlots = results[1].rows.map(row => ({
       time: row.time,
       remaining: Number(row.remaining),
     }));
 
-    // if a reservation slot is not in the results, make a default one with
-    // max seating availability
     const returnedTimes = results[1].rows.map(slot => slot.time);
     for (let i = 17; i < 22; i += 1) {
       if (!returnedTimes.includes(i)) {
@@ -70,18 +64,15 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
       }
     }
 
-    // sort returnedSlots
     returnedSlots.sort((a, b) => (a.time - b.time));
 
     const output = {
       madeToday: Number(results[0].rows[0].count),
       reservations: returnedSlots,
     };
-    console.log(output);
     return output;
   });
 
-genReservationSlots({restaurantId: 3000, date: '2018-03-29'});
 const addReservation = ({
   restaurantId, date, time, name, party,
 }) => genReservationSlots({ restaurantId, date })

@@ -8,18 +8,16 @@ const addReservation = ({ restaurantId }) => {
   return new Promise((resolve, reject) => reject());
 };
 
-const bookingsToday = () => new Promise(resolve => resolve({ rows: [{ count: 250 }] }));
+const bookingsToday = () => new Promise(resolve => resolve(250));
 
 const getOpenSeats = () => new Promise((resolve) => {
   resolve({
-    rows: [{
-      time: 17,
-      remaining: 50,
-    }],
+    time: 17,
+    remaining: 50,
   });
 });
 
-const getMaxSeats = () => new Promise(resolve => resolve({ rows: [{ seats: 75 }] }));
+const getMaxSeats = () => new Promise(resolve => resolve({ seats: 75 }));
 
 const genReservationSlots = ({ date }) => {
   if (date === '2018-02-31') {

@@ -28,13 +28,14 @@ const findById = id => (
 
 const getBookingsForDate = (id, date) => (
   findById(id)
-    .then(res =>
-      (res[0].reservations.filter(r => r.date.toISOString().slice(0, r.date.toISOString().indexOf('T')) === date)
+    .then(res => (
+      res[0].reservations.filter(r => r.date.toISOString().slice(0, r.date.toISOString().indexOf('T')) === date)
         .map(i => ({
           time: i.time,
           party: i.party,
           seats: res[0].seats,
-        }))))
+        }))
+    ))
     .catch(() => 'No reservations made yet')
 );
 
