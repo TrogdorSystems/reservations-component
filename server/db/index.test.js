@@ -1,13 +1,13 @@
 require('dotenv').config();
 const moment = require('moment-timezone');
 
-jest.mock('pg');
+jest.mock('mongoose');
 
 const db = require('./index');
 
 describe('db/index.js', () => {
   afterAll(() => {
-    jest.unmock('pg');
+    jest.unmock('mongoose');
   });
 
   describe('bookingsToday', () => {
@@ -16,7 +16,6 @@ describe('db/index.js', () => {
       const today = moment.tz('America/Los_Angeles').format('YYYY-MM-DD');
       db.bookingsToday(restaurantId)
         .then((result) => {
-          expect(result.query).toBe('SELECT COUNT(id) FROM reservations WHERE restaurantid=$1 AND timestamp=$2');
           expect(result.params).toHaveLength(2);
           expect(result.params).toEqual(expect.arrayContaining([
             restaurantId, today]));
@@ -48,8 +47,6 @@ describe('db/index.js', () => {
       const restaurantId = 305;
       db.getMaxSeats(restaurantId)
         .then((result) => {
-          expect(result.query).toBe('SELECT seats FROM restaurants WHERE id=$1');
-          expect(result.params).toHaveLength(1);
           expect(result.params).toEqual(expect.arrayContaining([restaurantId]));
         })
         .catch((error) => {
@@ -64,7 +61,6 @@ describe('db/index.js', () => {
       const testItem = { id: 5, name: 'Krusty Burger', seats: 100 };
       db.addRestaurantInfo(testItem)
         .then((result) => {
-          expect(result.query).toBe('INSERT INTO restaurants (id,name,seats) VALUES ($1,$2,$3)');
           expect(result.params).toHaveLength(3);
           expect(result.params).toEqual(expect.arrayContaining([
             testItem.id, testItem.name, testItem.seats]));
@@ -88,7 +84,6 @@ describe('db/index.js', () => {
 
       db.addReservation(testItem)
         .then((result) => {
-          expect(result.query).toBe('INSERT INTO reservations (restaurantId, date, time, name, party) VALUES ($1,$2,$3,$4,$5)');
           expect(result.params).toHaveLength(5);
           expect(result.params).toEqual(expect.arrayContaining([
             testItem.restaurantId, testItem.date, testItem.time, testItem.name, testItem.party]));
