@@ -13,7 +13,7 @@ const getOpenSeats = ({
   restaurantId, date,
 }) => restaurant.getBookingsForDate(restaurantId, date)
   .then((res) => {
-    let remainingSeats = res.reduce((acc, curr) => {
+    const seatsBookedAtTime = res.reduce((acc, curr) => {
       if (acc[curr.time]) {
         acc[curr.time] += curr.party;
       } else {
@@ -21,27 +21,16 @@ const getOpenSeats = ({
       }
       return acc;
     }, {});
-    return remainingSeats;
+    return seatsBookedAtTime;
   })
-  .then(remaining => (
-    getMaxSeats(restaurantId).then(res => res - Object.entries(remaining).reduce((acc, curr) => {
-      acc += curr[1];
-      return acc;
-    }, 0))
-    .then((result) => {remaining})
+  .then(seatsBooked => (
+    getMaxSeats(restaurantId).then(res => (
+      Object.entries(seatsBooked).map(i => ({
+        time: Number(i[0]),
+        remaining: (res - i[1]),
+      }))
+    ))
   ));
-
-// client.query(
-//   'SELECT time,(MAX(restaurants.seats)-SUM(party)) AS remaining FROM reservations INNER JOIN restaurants ON restaurants.id = reservations.restaurantid WHERE date=$1 AND restaurantid=$2 GROUP BY time',
-//   [date, restaurantId],
-// );
-
-console.log(getOpenSeats({restaurantId: 3000, date: '2018-03-21'}))
-// client.query(
-//   'SELECT seats FROM restaurants WHERE id=$1',
-//   [restaurantId],
-// );
-console.log(getMaxSeats(3000))
 
 const genReservationSlots = ({ restaurantId, date }) => Promise.all([
   bookingsToday(restaurantId),
@@ -49,34 +38,23 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
   getMaxSeats(restaurantId),
 ])
   .then((results) => {
-    // results[0] has the # bookings made info
-    // results[1] has the timeslot & remaining seats info
-    // results[2] has the max seats for the restaurant
-    // create default reservations array with default values
-    const returnedSlots = results[1].rows.map(row => ({
-      time: row.time,
-      remaining: Number(row.remaining),
-    }));
-
-    // if a reservation slot is not in the results, make a default one with
-    // max seating availability
-    const returnedTimes = results[1].rows.map(slot => slot.time);
+    const returnedSlots = results[1];
+    const returnedTimes = results[1].map(slot => slot.time);
     for (let i = 17; i < 22; i += 1) {
       if (!returnedTimes.includes(i)) {
-        returnedSlots.push({ time: i, remaining: results[2].rows[0].seats });
+        returnedSlots.push({ time: i, remaining: results[2] });
       }
     }
-
     // sort returnedSlots
     returnedSlots.sort((a, b) => (a.time - b.time));
 
     const output = {
-      madeToday: Number(results[0].rows[0].count),
+      madeToday: Number(results[0]) || 0,
       reservations: returnedSlots,
     };
     return output;
   });
-
+  console.log(genReservationSlots({ restaurantId: 3000, date: '2018-03-21' }))
 // console.log(getOpenSeats(3000, '2018-3-20'));
 
 
@@ -85,25 +63,18 @@ const addReservation = ({
 }) => genReservationSlots({ restaurantId, date })
   .then((slots) => {
     const requestedSlot = slots.reservations.find(item => item.time === time);
-
-    // check max Seats
     if (requestedSlot.remaining >= party) {
-      return client.query(
-        'INSERT INTO reservations (restaurantid, date, time, name, party) VALUES ($1,$2,$3,$4,$5)',
-        [restaurantId, date, time, name, party],
-      );
+      restaurant.findOneAndUpdate(restaurantId, date, time, name, party)
     }
-    // console.log('genReservationSlots throws error');
     throw new Error('Restaurant cannot take a party of that size!');
   });
+
+// addReservation({restaurantId: 3000, date: '2018-03-21', time: 17, name: 'michael', party: 4})
 
 
 const addRestaurantInfo = ({
   id, name, seats,
-}) => client.query(
-  'INSERT INTO restaurants (id,name,seats) VALUES ($1,$2,$3)',
-  [id, name, seats],
-);
+}) => restaurant.insert(id, name, seats);
 
 module.exports = {
   bookingsToday,

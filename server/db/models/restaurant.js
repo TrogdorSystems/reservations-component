@@ -26,8 +26,6 @@ const findById = id => (
   RestaurantModel.find({ id })
 );
 
-console.time(findById(3000).then(res => res))
-
 const getBookingsForDate = (id, date) => (
   findById(id)
     .then(res =>
@@ -44,13 +42,24 @@ const getMaxSeats = id => (
   findById(id)
     .then(res => res[0].seats)
 );
-// getOpenSeats(3000, '2018-3-18')
-//   .then(res => console.log(res));
-// findById(3000).then(res => console.log(res[0].reservations))
-//   .then(res => console.log(res));
+
+const findOneAndUpdate = (id, date, time, name, party) => (
+  RestaurantModel.findOneAndUpdate({ id }, {
+    $push: {
+      reservations: {
+        date, time, name, party,
+      },
+    },
+  })
+);
+
+const insert = (id, name, seats) => (
+  RestaurantModel.create({ id, name, seats })
+);
 
 exports.findById = findById;
 exports.getBookingsForDate = getBookingsForDate;
 exports.getMaxSeats = getMaxSeats;
+exports.findOneAndUpdate = findOneAndUpdate;
+exports.insert = insert;
 exports.mongoose = mongoose;
-// exports.getTimesandReservationsforDate = getTimesandReservationsforDate;

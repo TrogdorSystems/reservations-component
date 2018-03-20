@@ -77,10 +77,11 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
       madeToday: Number(results[0].rows[0].count),
       reservations: returnedSlots,
     };
+    console.log(output);
     return output;
   });
 
-
+genReservationSlots({restaurantId: 3000, date: '2018-03-29'});
 const addReservation = ({
   restaurantId, date, time, name, party,
 }) => genReservationSlots({ restaurantId, date })
