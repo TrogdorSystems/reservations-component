@@ -1,7 +1,7 @@
 .env
 
 node_modules
-
+dump.rdb
 bundle.js
 bundle-prod.js
 server/db/restaurant.json

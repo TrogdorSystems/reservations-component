@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:8081'
   phases:
-    - duration: 360
-      arrivalCount: 6000
+    - duration: 40
+      arrivalRate: 100
   variables:
     date: 
       - 2018-03-30
@@ -12,6 +12,8 @@ config:
       - 2018-04-03
       - 2018-03-22
       - 2018-03-21
+  http: 
+    pool: 100
 scenarios:
   - flow:
     - loop:
