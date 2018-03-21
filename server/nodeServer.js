@@ -1,4 +1,4 @@
-
+require('newrelic');
 const http = require('http');
 const fs = require('fs');
 const db = require('./db');
@@ -15,26 +15,17 @@ const server = http.createServer((req, res) => {
   if (method === 'GET' && url === `/restaurants/${urlSplit[2]}/reservations/${urlSplit[4]}`) {
     const dateParam = urlSplit[4] || moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
     const redisKey = `${urlSplit[2]}${urlSplit[4]}`;
-    redisClient.GET(redisKey.toString(), (err, response) => {
+    redisClient.GET(redisKey, (err, response) => {
       if (response !== null && response !== undefined) {
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.write(response);
-        res.end();
+        res.end(response);
       } else {
         db.genReservationSlots({ restaurantId: urlSplit[2], date: dateParam })
           .then((result) => {
             const stringifiedResult = JSON.stringify(result);
-            redisClient.SETEX(
-              redisKey, 60, stringifiedResult,
-              (err, result) => {
-                if (err) {
-                  throw new Error(err);
-                } else {
-                  res.writeHead(200, { 'Content-Type': 'application/json' });
-                  res.end(stringifiedResult);
-                }
-              },
-            );
+            redisClient.SETEX(redisKey, 20, stringifiedResult);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(stringifiedResult);
           })
           .catch((error) => {
             res.writeHead(500);
@@ -48,19 +39,27 @@ const server = http.createServer((req, res) => {
     fs.createReadStream('../client/dist/index.html').pipe(res);
   } else if (method === 'POST' && url === '/reservations') {
     let body = [];
+    req.on('error', err => console.error(err));
     req.on('data', (chunk) => {
       body.push(chunk);
     }).on('end', () => {
       body = Buffer.concat(body).toString();
-      const result = JSON.parse(body);
-      db.addReservation(result)
-        .then(() => {
-          res.writeHead(201);
-          res.end();
+      db.addReservation(JSON.parse(body))
+        .then((slots) => {
+          const newBody = JSON.parse(body);
+          const redisKey = `${newBody.restaurantId}${newBody.date}`;
+          redisClient.del(redisKey, (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.writeHead(201, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify(slots));
+            }
+          });
         })
-        .catch(() => {
+        .catch((err) => {
           res.writeHead(500);
-          res.end();
+          res.end(err);
         });
     });
   }

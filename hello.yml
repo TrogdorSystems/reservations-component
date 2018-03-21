@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:8081'
   phases:
-    - duration: 40
-      arrivalRate: 100
+    - duration: 60
+      arrivalCount: 6000
   variables:
     date: 
       - 2018-03-30
@@ -13,20 +13,20 @@ config:
       - 2018-03-22
       - 2018-03-21
   http: 
-    pool: 100
+    pool: 50
 scenarios:
   - flow:
     - loop:
       - get:
           url: /restaurants/{{ $loopElement }}/reservations/{{date}}
-      - post:
-          url: /reservations
-          json:
-            restaurantId: $loopElement
-            date: '2018-03-25'
-            time: 20
-            name: 'Skinner george'
-            party: 5
+      # - post:
+      #     url: /reservations
+      #     json:
+      #       restaurantId: "{{ $loopElement }}"
+      #       date: "2018-03-25"
+      #       time: 20
+      #       name: "Skinner george"
+      #       party: 5
       over: 
         - 68354
         - 35445

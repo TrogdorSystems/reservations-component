@@ -58,12 +58,14 @@ const addReservation = ({
   restaurantId, date, time, name, party,
 }) => genReservationSlots({ restaurantId, date })
   .then((slots) => {
+    console.log(slots)
     const requestedSlot = slots.reservations.find(item => item.time === time);
     if (requestedSlot.remaining >= party) {
       restaurant.findOneAndUpdate(restaurantId, date, time, name, party);
     } else {
       throw new Error('Restaurant cannot take a party of that size!');
     }
+    return slots;
   });
 
 const addRestaurantInfo = ({
