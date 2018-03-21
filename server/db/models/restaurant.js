@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(`mongodb://${process.env.MONGOHOST}/${process.env.MONGODATABASE}`);
+mongoose.connect(`mongodb://localhost/silverspoonMDB`);
 const restaurantSchema = mongoose.Schema({
   id: {
     type: Number,

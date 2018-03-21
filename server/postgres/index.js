@@ -9,11 +9,11 @@ const client = new Pool({
   user: process.env.PGUSER,
   password: process.env.PGPASSWORD,
   host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
+  database: 'silverspoon',
   port: process.env.PORT,
 });
 
-// client.connect(); 
+client.connect();
 
 client.on('end', () => {
   console.log('pg client end');

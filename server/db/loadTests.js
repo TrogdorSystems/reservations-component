@@ -1,3 +1,4 @@
+require('dotenv').config();
 const restaurantModel = require('./models/restaurant');
 const postgresClient = require('../postgres/index');
 const Promise = require('bluebird');

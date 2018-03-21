@@ -104,6 +104,18 @@ $ npm run server-dev
 http://localhost:3001/
 ```
 
+12. Install redis
+```
+brew install redis
+```
+13. start redis server
+```
+redis-server /usr/local/etc/redis.conf
+```
+  stop redis server
+```
+redis-serv
+
 ### Other `npm` commands:
 ```
 npm test                  // run jest test suite

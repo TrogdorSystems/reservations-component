@@ -82,11 +82,13 @@
     "moment-timezone": "^0.5.14",
     "mongoose": "^5.0.10",
     "morgan": "^1.9.0",
+    "newrelic": "^3.2.0",
     "pg": "^7.4.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-day-picker": "^7.0.7",
     "react-dom": "^16.2.0",
+    "redis": "^2.8.0",
     "style-loader": "^0.20.2",
     "webpack": "^3.11.0",
     "webpack-dev-middleware": "^2.0.6"
