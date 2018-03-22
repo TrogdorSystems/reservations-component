@@ -1,4 +1,9 @@
 require('newrelic');
+// const React = require('react');
+// const { renderToString } = require('react-dom/server');
+// const Reservation = require('../client/src/components/Reservation.jsx');
+// const Html = require('../client/src/html');
+
 const http = require('http');
 const fs = require('fs');
 const db = require('./db');
@@ -35,8 +40,10 @@ const server = http.createServer((req, res) => {
     });
   } else if (method === 'GET' && url === '/bundle.js') {
     fs.createReadStream('../client/dist/bundle.js').pipe(res);
+  } else if (method === 'GET' && url === '/productionBundle.js') {
+    fs.createReadStream('./client/dist/productionBundle.js').pipe(res);
   } else if (method === 'GET' && url === '/') {
-    fs.createReadStream('../client/dist/index.html').pipe(res);
+    fs.createReadStream('./client/dist/index.html').pipe(res);
   } else if (method === 'POST' && url === '/reservations') {
     let body = [];
     req.on('error', err => console.error(err));

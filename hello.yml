@@ -19,14 +19,14 @@ scenarios:
     - loop:
       - get:
           url: /restaurants/{{ $loopElement }}/reservations/{{date}}
-      # - post:
-      #     url: /reservations
-      #     json:
-      #       restaurantId: "{{ $loopElement }}"
-      #       date: "2018-03-25"
-      #       time: 20
-      #       name: "Skinner george"
-      #       party: 5
+      - post:
+          url: /reservations
+          json:
+            restaurantId: "{{ $loopElement }}"
+            date: "{{ date }}"
+            time: 20
+            name: "Skinner george"
+            party: 5
       over: 
         - 68354
         - 35445
