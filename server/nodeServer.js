@@ -1,4 +1,4 @@
-require('newrelic');
+// require('newrelic');
 
 const Reservation = require('../client/dist/productionBundle-server').default;
 const Html = require('../client/src/html');
