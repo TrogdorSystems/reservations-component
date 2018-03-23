@@ -5,7 +5,11 @@ dump.rdb
 bundle.js
 bundle-prod.js
 server/db/restaurant.json
+**productionBundle-server.js
+**productionBundle.js
 **/.DS_Store
+**newrelic.js
+**newrelic_agent.log
 
 coverage/
 server/.DS_Store
