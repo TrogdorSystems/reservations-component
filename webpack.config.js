@@ -1,8 +1,15 @@
 const path = require('path');
-const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 const common = {
-  context: path.join(__dirname, '/client/src'),
+  context: path.join(__dirname, '/client/src/components'),
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+};
+
+const client = {
+  entry: '../production.js',
   module: {
     rules: [
       {
@@ -26,13 +33,6 @@ const common = {
       },
     ],
   },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-};
-
-const client = {
-  entry: './production.js',
   output: {
     path: path.join(__dirname, 'client/dist'),
     filename: 'productionBundle.js',
@@ -40,10 +40,34 @@ const client = {
 };
 
 const server = {
-  entry: './server.js',
+  entry: '../server.js',
+  target: 'node',
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env', 'react'],
+          },
+        },
+      },
+      {
+        test: /dayPicker\.css$/,
+        use: ['css-loader'],
+      },
+      {
+        test: /\.css$/,
+        exclude: /dayPicker\.css$/,
+        loader: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+      },
+    ],
+  },
   output: {
     path: path.join(__dirname, '/client/dist'),
-    filename: 'prudctionBundle-server.js',
+    filename: 'productionBundle-server.js',
     libraryTarget: 'commonjs-module',
   },
 };

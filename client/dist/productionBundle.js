@@ -17947,13 +17947,9 @@ return zhTw;
 "use strict";
 
 
-var _Reservation = __webpack_require__(143);
+var Reservation = __webpack_require__(143);
 
-var _Reservation2 = _interopRequireDefault(_Reservation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-window.Reservation = _Reservation2.default;
+window.Reservation = Reservation;
 
 /***/ }),
 /* 143 */
@@ -17961,10 +17957,6 @@ window.Reservation = _Reservation2.default;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18136,7 +18128,7 @@ Reservation.propTypes = {
   id: _propTypes2.default.number.isRequired
 };
 
-exports.default = Reservation;
+module.exports = Reservation;
 
 /***/ }),
 /* 144 */
@@ -21241,14 +21233,14 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, ".SetName__container___fhMpP {\n  /*border: 1px solid green;*/\n  padding: 8px;\n  padding-top: 15px;\n}\n\n.SetName__input___10GKg {\n  width: 210px;\n  height: 35px;\n  margin: 5px;\n  font-size: 15px;\n  padding-left: 10px;\n}\n\n.SetName__button___AEspp {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  background-color: #da3743;\n  color: #FFF;\n  width: 160px;\n  height: 35px;\n  border-radius: 2px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.SetName__button___AEspp:hover {\n  background-color: #b22c36;\n  cursor: pointer;\n}\n\n.SetName__showName___fXfDd {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  padding-left: 5px;\n  color: #777;\n  font-size: 20px;\n  height: 35px;\n  padding-top: 11px;\n}\n", ""]);
+exports.push([module.i, ".SetName__container___ZQbn- {\n  /*border: 1px solid green;*/\n  padding: 8px;\n  padding-top: 15px;\n}\n\n.SetName__input___1yfR2 {\n  width: 210px;\n  height: 35px;\n  margin: 5px;\n  font-size: 15px;\n  padding-left: 10px;\n}\n\n.SetName__button___EfIaD {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  background-color: #da3743;\n  color: #FFF;\n  width: 160px;\n  height: 35px;\n  border-radius: 2px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.SetName__button___EfIaD:hover {\n  background-color: #b22c36;\n  cursor: pointer;\n}\n\n.SetName__showName___25lif {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  padding-left: 5px;\n  color: #777;\n  font-size: 20px;\n  height: 35px;\n  padding-top: 11px;\n}\n", ""]);
 
 // exports
 exports.locals = {
-	"container": "SetName__container___fhMpP",
-	"input": "SetName__input___10GKg",
-	"button": "SetName__button___AEspp",
-	"showName": "SetName__showName___fXfDd"
+	"container": "SetName__container___ZQbn-",
+	"input": "SetName__input___1yfR2",
+	"button": "SetName__button___EfIaD",
+	"showName": "SetName__showName___25lif"
 };
 
 /***/ }),
@@ -23816,13 +23808,13 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, ".SearchParams__container___2zIrd {\n  /*border: 1px solid blue;*/\n  display: flex;\n  padding: 8px;\n}\n\n.SearchParams__input___3yho0 {\n  width: 207px;\n  height: 35px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.SearchParams__button___2umpj {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  background-color: #da3743;\n  color: #FFF;\n  width: 160px;\n  height: 35px;\n  border-radius: 2px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.SearchParams__button___2umpj:hover {\n  background-color: #b22c36;\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, ".SearchParams__container___3t_AG {\n  /*border: 1px solid blue;*/\n  display: flex;\n  padding: 8px;\n}\n\n.SearchParams__input___2Bt6N {\n  width: 207px;\n  height: 35px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.SearchParams__button___FOmKa {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  background-color: #da3743;\n  color: #FFF;\n  width: 160px;\n  height: 35px;\n  border-radius: 2px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.SearchParams__button___FOmKa:hover {\n  background-color: #b22c36;\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 exports.locals = {
-	"container": "SearchParams__container___2zIrd",
-	"input": "SearchParams__input___3yho0",
-	"button": "SearchParams__button___2umpj"
+	"container": "SearchParams__container___3t_AG",
+	"input": "SearchParams__input___2Bt6N",
+	"button": "SearchParams__button___FOmKa"
 };
 
 /***/ }),
@@ -24029,12 +24021,12 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, ".TimeSlot__container___1GIw1 {\n  /*border: 1px solid purple;*/\n}\n\n.TimeSlot__button___3Okin {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  background-color: #da3743;\n  color: #FFF;\n  width: 120px;\n  height: 35px;\n  border-radius: 2px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.TimeSlot__button___3Okin:hover {\n  background-color: #b22c36;\n  cursor: pointer;\n}\n\n\n.TimeSlot__button___3Okin:disabled {\n  background-color: #AAA;\n  cursor: default;\n}\n", ""]);
+exports.push([module.i, ".TimeSlot__container___2NUvV {\n  /*border: 1px solid purple;*/\n}\n\n.TimeSlot__button___lJtQ5 {\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  background-color: #da3743;\n  color: #FFF;\n  width: 120px;\n  height: 35px;\n  border-radius: 2px;\n  margin: 5px;\n  font-size: 15px;\n}\n\n.TimeSlot__button___lJtQ5:hover {\n  background-color: #b22c36;\n  cursor: pointer;\n}\n\n\n.TimeSlot__button___lJtQ5:disabled {\n  background-color: #AAA;\n  cursor: default;\n}\n", ""]);
 
 // exports
 exports.locals = {
-	"container": "TimeSlot__container___1GIw1",
-	"button": "TimeSlot__button___3Okin"
+	"container": "TimeSlot__container___2NUvV",
+	"button": "TimeSlot__button___lJtQ5"
 };
 
 /***/ }),
@@ -24096,14 +24088,14 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, ".TimeSlotSelector__container___3AbCl {\n  /*border: 1px solid red;*/\n  padding: 8px;\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n}\n\n.TimeSlotSelector__timeSlotBox___1QKIm {\n  display: flex;\n}\n\n.TimeSlotSelector__bookingsToday___3bApH {\n  margin: 5px;\n  padding-left: 5px;\n  color: #555;\n  font-size: 15px;\n}\n\n.TimeSlotSelector__availableSlots___ifqyb {\n  margin: 5px;\n  padding-left: 5px;\n  color: #555;\n  font-size: 15px;\n}\n", ""]);
+exports.push([module.i, ".TimeSlotSelector__container___1j73v {\n  /*border: 1px solid red;*/\n  padding: 8px;\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n}\n\n.TimeSlotSelector__timeSlotBox___34-Na {\n  display: flex;\n}\n\n.TimeSlotSelector__bookingsToday___1mF5Y {\n  margin: 5px;\n  padding-left: 5px;\n  color: #555;\n  font-size: 15px;\n}\n\n.TimeSlotSelector__availableSlots___1pJ_x {\n  margin: 5px;\n  padding-left: 5px;\n  color: #555;\n  font-size: 15px;\n}\n", ""]);
 
 // exports
 exports.locals = {
-	"container": "TimeSlotSelector__container___3AbCl",
-	"timeSlotBox": "TimeSlotSelector__timeSlotBox___1QKIm",
-	"bookingsToday": "TimeSlotSelector__bookingsToday___3bApH",
-	"availableSlots": "TimeSlotSelector__availableSlots___ifqyb"
+	"container": "TimeSlotSelector__container___1j73v",
+	"timeSlotBox": "TimeSlotSelector__timeSlotBox___34-Na",
+	"bookingsToday": "TimeSlotSelector__bookingsToday___1mF5Y",
+	"availableSlots": "TimeSlotSelector__availableSlots___1pJ_x"
 };
 
 /***/ }),
@@ -24165,12 +24157,12 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, ".Reservation__container___2SEeZ {\n  margin-left: auto;\n  margin-right: auto;\n  padding-left: 20px;\n  width: 720px;\n  border-radius: 10px;\n  background: #fff;\n/*  box-shadow: 0 2px 8px #c1bfbf;*/\n}\n\n.Reservation__message___ZMH1v {\n  padding: 4px;\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  margin: 5px;\n  padding-left: 15px;\n  color: #333;\n  padding-bottom:15px;\n}\n", ""]);
+exports.push([module.i, ".Reservation__container___Nkeuv {\n  margin-left: auto;\n  margin-right: auto;\n  padding-left: 20px;\n  width: 720px;\n  border-radius: 10px;\n  background: #fff;\n/*  box-shadow: 0 2px 8px #c1bfbf;*/\n}\n\n.Reservation__message___1GHb1 {\n  padding: 4px;\n  font-family: BrandonText,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;\n  margin: 5px;\n  padding-left: 15px;\n  color: #333;\n  padding-bottom:15px;\n}\n", ""]);
 
 // exports
 exports.locals = {
-	"container": "Reservation__container___2SEeZ",
-	"message": "Reservation__message___ZMH1v"
+	"container": "Reservation__container___Nkeuv",
+	"message": "Reservation__message___1GHb1"
 };
 
 /***/ }),

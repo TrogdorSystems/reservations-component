@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(`mongodb://localhost/silverspoonMDB`);
+mongoose.connect(`mongodb://localhost/silverspoonMDB`, { poolSize: 10, autoIndex: false });
 const restaurantSchema = mongoose.Schema({
   id: {
     type: Number,
@@ -54,7 +54,7 @@ const findOneAndUpdate = (id, date, time, name, party) => (
       },
     },
   })
-);
+    .catch(err => console.error('restaurantError', err)));
 
 const insert = (id, name, seats) => (
   RestaurantModel.create({ id, name, seats })

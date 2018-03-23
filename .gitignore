@@ -5,6 +5,7 @@ dump.rdb
 bundle.js
 bundle-prod.js
 server/db/restaurant.json
+**/.DS_Store
 
 coverage/
 server/.DS_Store

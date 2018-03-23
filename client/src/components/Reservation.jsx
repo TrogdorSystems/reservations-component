@@ -123,4 +123,4 @@ Reservation.propTypes = {
   id: PropTypes.number.isRequired,
 };
 
-export default Reservation;
+module.exports = Reservation;
