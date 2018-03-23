@@ -1,4 +1,3 @@
-require('newrelic');
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan')
@@ -8,7 +7,6 @@ const restaurantsRouter = require('./routers/restaurants');
 const reservationsRouter = require('./routers/reservations');
 
 const app = express();
-app.use(morgan('dev'));
 
 app.use(cors());
 
