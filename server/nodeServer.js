@@ -56,12 +56,11 @@ const server = http.createServer((req, res) => {
     res.end(Html(renderComponent(Reservation, urlId), 'Silverspoon', urlId));
     fs.createReadStream('./client/dist/productionBundle.js').pipe(res);
   } else if (method === 'POST' && url === '/reservations') {
-    let body = [];
+    let body = '';
     req.on('error', err => console.error(err));
     req.on('data', (chunk) => {
-      body.push(chunk);
+      body += chunk;
     }).on('end', () => {
-      body = Buffer.concat(body).toString();
       const newBody = JSON.parse(body);
       db.addReservation(newBody)
         .then((slots) => {
