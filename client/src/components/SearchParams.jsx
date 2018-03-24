@@ -6,8 +6,6 @@ import moment from 'moment-timezone';
 import dayPickerStyles from './styles/dayPicker.css';
 import styles from './styles/SearchParams.css';
 
-console.log('dayPickerStyles', dayPickerStyles);
-
 class SearchParams extends React.Component {
   constructor(props) {
     super(props);
@@ -86,16 +84,6 @@ class SearchParams extends React.Component {
               </option>)) }
           </select>
         </div>
-        {/*
-        <div>
-          <button
-            className={styles.button}
-            onClick={() => this.props.clickHandler(dateVal, timeVal, partyVal)}
-          >
-            Find a Table
-          </button>
-        </div>
-      */}
       </div>
     );
   }

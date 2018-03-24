@@ -120,7 +120,11 @@ class Reservation extends React.Component {
 }
 
 Reservation.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
+};
+
+Reservation.defaultProps = {
+  id: 305,
 };
 
 module.exports = Reservation;

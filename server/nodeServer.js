@@ -1,4 +1,4 @@
-// require('newrelic');
+require('newrelic');
 
 const Reservation = require('../client/dist/productionBundle-server').default;
 const Html = require('../client/src/html');
@@ -16,16 +16,15 @@ const hostname = '127.0.0.1';
 
 const server = http.createServer((req, res) => {
   const { method, url } = req;
-  let renderComponent = (component, id) => {
-    let componentString = createElement(component, { id });
+  const renderComponent = (component, id) => {
+    const componentString = createElement(component, { id }, null);
     return renderToString(componentString);
-  }
+  };
   const urlSplit = url.split('/');
-  let urlId = Number(urlSplit[2]) || 305;
+  const urlId = Number(urlSplit[2]) || 305;
   if (method === 'GET' && url === `/restaurants/${urlSplit[2]}/reservations/${urlSplit[4]}`) {
     const dateParam = urlSplit[4] || moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
     const redisKey = `${urlSplit[2]}${urlSplit[4]}`;
-    // res.write(Html(renderComponent(Reservation, urlId), 'Silverspoon', urlId));
     redisClient.GET(redisKey, (err, response) => {
       if (response !== null && response !== undefined) {
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -55,6 +54,7 @@ const server = http.createServer((req, res) => {
     fs.createReadStream('./client/dist/productionBundle.js').pipe(res);
   } else if (method === 'GET' && url === '/') {
     res.end(Html(renderComponent(Reservation, urlId), 'Silverspoon', urlId));
+    fs.createReadStream('./client/dist/productionBundle.js').pipe(res);
   } else if (method === 'POST' && url === '/reservations') {
     let body = [];
     req.on('error', err => console.error(err));
@@ -62,18 +62,17 @@ const server = http.createServer((req, res) => {
       body.push(chunk);
     }).on('end', () => {
       body = Buffer.concat(body).toString();
-      db.addReservation(JSON.parse(body))
+      const newBody = JSON.parse(body);
+      db.addReservation(newBody)
         .then((slots) => {
-          const newBody = JSON.parse(body);
           const redisKey = `${newBody.restaurantId}${newBody.date}`;
           redisClient.del(redisKey, (err) => {
             if (err) {
-              console.log(err);
-            } else {
-              res.writeHead(201, { 'Content-Type': 'application/json' });
-              res.end(JSON.stringify(slots));
+              console.log('redis error', err);
             }
           });
+          res.writeHead(201, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(slots));
         })
         .catch((err) => {
           res.writeHead(500);
