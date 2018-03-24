@@ -21,7 +21,8 @@ const server = http.createServer((req, res) => {
     return renderToString(componentString);
   };
   const urlSplit = url.split('/');
-  const urlId = Number(urlSplit[2]) || 305;
+  // !Number()
+  const urlId = urlSplit[2] || 305;
   if (method === 'GET' && url === `/restaurants/${urlSplit[2]}/reservations/${urlSplit[4]}`) {
     const dateParam = urlSplit[4] || moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
     const redisKey = `${urlSplit[2]}${urlSplit[4]}`;
@@ -63,19 +64,19 @@ const server = http.createServer((req, res) => {
     }).on('end', () => {
       const newBody = JSON.parse(body);
       db.addReservation(newBody)
-        .then((slots) => {
+        .then(() => {
           const redisKey = `${newBody.restaurantId}${newBody.date}`;
           redisClient.del(redisKey, (err) => {
             if (err) {
-              console.log('redis error', err);
+              throw new Error('redis error', err);
             }
           });
-          res.writeHead(201, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify(slots));
+          res.writeHead(201);
+          res.end();
         })
-        .catch((err) => {
+        .catch(() => {
           res.writeHead(500);
-          res.end(err);
+          res.end();
         });
     });
   }

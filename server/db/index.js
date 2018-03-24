@@ -28,7 +28,7 @@ const getOpenSeats = ({
       }))
     ))
   ))
-  .catch(err => err);
+  .catch((err) => { if (err) throw new Error(err); });
 
 const genReservationSlots = ({ restaurantId, date }) => Promise.all([
   bookingsToday(restaurantId, date),
@@ -53,12 +53,13 @@ const genReservationSlots = ({ restaurantId, date }) => Promise.all([
     };
 
     return output;
-  });
+  }).catch(err => console.log(err));
 
 const addReservation = ({
   restaurantId, date, time, name, party,
 }) => genReservationSlots({ restaurantId, date })
   .then((slots) => {
+    console.log('gen slots', restaurantId, date, time, name)
     const requestedSlot = slots.reservations.find(item => item.time === time);
     if (requestedSlot.remaining >= party) {
       restaurant.findOneAndUpdate(restaurantId, date, time, name, party)
@@ -67,7 +68,8 @@ const addReservation = ({
       throw new Error('Restaurant cannot take a party of that size!');
     }
     return slots;
-  });
+  })
+  .catch(err =>console.log(err));
 
 const addRestaurantInfo = ({
   id, name, seats,
