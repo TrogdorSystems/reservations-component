@@ -10,7 +10,7 @@ const moment = require('moment');
 const pastDate = moment(new Date()).format('YYYY-MM-DD');
 const futureDate = moment(new Date()).add(7, 'days').format('YYYY-MM-DD');
 
-function generateRandomData(userContext, events, done) {
+const generateRandomData = (userContext, events, done) => {
   // generate data with Faker:
   const name = `${Faker.name.firstName()} ${Faker.name.lastName()}`;
   const id = Faker.random.number({ min: 1, max: 10e6 });
@@ -25,4 +25,3 @@ function generateRandomData(userContext, events, done) {
   userContext.vars.time = time;
   return done();
 }
-
