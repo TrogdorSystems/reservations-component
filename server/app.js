@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const morgan = require('morgan');
+const morgan = require('morgan')
 const cors = require('cors');
 
 const restaurantsRouter = require('./routers/restaurants');
@@ -9,7 +9,6 @@ const reservationsRouter = require('./routers/reservations');
 const app = express();
 
 app.use(cors());
-app.use(morgan('dev'));
 
 app.options('*', cors());
 app.use('/', express.static(path.join(__dirname, '../client/dist')));

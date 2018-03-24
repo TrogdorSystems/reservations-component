@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(`mongodb://${process.env.MONGOHOST}/${process.env.MONGODATABASE}`);
+mongoose.connect(`mongodb://localhost/silverspoonMDB`, { poolSize: 10, autoIndex: false });
 const restaurantSchema = mongoose.Schema({
   id: {
     type: Number,
@@ -29,7 +29,9 @@ const findById = id => (
 const getBookingsForDate = (id, date) => (
   findById(id)
     .then(res => (
-      res[0].reservations.filter(r => r.date.toISOString().slice(0, r.date.toISOString().indexOf('T')) === date)
+      res[0].reservations.filter(r =>
+        r.date.toISOString()
+          .slice(0, r.date.toISOString().indexOf('T')) === date)
         .map(i => ({
           time: i.time,
           party: i.party,
@@ -52,7 +54,7 @@ const findOneAndUpdate = (id, date, time, name, party) => (
       },
     },
   })
-);
+    .catch(err => console.error('restaurantError', err)));
 
 const insert = (id, name, seats) => (
   RestaurantModel.create({ id, name, seats })

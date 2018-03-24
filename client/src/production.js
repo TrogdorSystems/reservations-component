@@ -1,3 +1,3 @@
-import Reservation from './components/Reservation';
+const Reservation = require('./components/Reservation');
 
 window.Reservation = Reservation;

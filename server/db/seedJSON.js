@@ -31,7 +31,7 @@ const writeRestaurant = (n) => {
       };
       if (i === 0) {
         streamRes.write(JSON.stringify(writeable));
-        const command = 'mongoimport -d silverspoonMDB -c restaurants --file db/resturant.json --type json --numInsertionWorkers 4';
+        const command = 'mongoimport -d silverspoonMDB -c restaurants --file restaurant.json --type json --numInsertionWorkers 14';
         exec(command, (err, done) => new Promise((resolve, reject) => {
           if (err) {
             reject(err);
