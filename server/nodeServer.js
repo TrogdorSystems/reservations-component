@@ -73,9 +73,6 @@ const server = http.createServer((req, res) => {
       body += chunk;
     }).on('end', () => {
       const newBody = JSON.parse(body);
-      // newBody.restaurantId = Number(newBody.restaurantId);
-      // newBody.time = Number(newBody.time);
-      // newBody.party = Number(newBody.party);
       db.addReservation(newBody)
         .then(() => {
           const redisKey = `${newBody.restaurantId}${newBody.date}`;
