@@ -66,7 +66,7 @@ const addReservation = ({
     }
     return slots;
   })
-  .catch((err) => { if (err) { throw new Error('Restaurant cannot take a party of that size!!!!!'); } });
+  // .catch((err) => { if (err) { throw new Error('Restaurant cannot take a party of that size!!!!!'); } });
 
 const addRestaurantInfo = ({
   id, name, seats,
