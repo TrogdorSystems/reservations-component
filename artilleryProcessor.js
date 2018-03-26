@@ -1,8 +1,4 @@
-module.exports = {
-  generateRandomData,
-};
 
-// Make sure to "npm install faker" first.
 const Faker = require('faker');
 const momentRandom = require('moment-random');
 const moment = require('moment');
@@ -15,7 +11,7 @@ const generateRandomData = (userContext, events, done) => {
   const name = `${Faker.name.firstName()} ${Faker.name.lastName()}`;
   const id = Faker.random.number({ min: 1, max: 10e6 });
   const date = momentRandom(futureDate, pastDate).format('YYYY-MM-DD');
-  const party = Faker.random.number({ min: 1, max: 8 });
+  const party = Faker.random.number({ min: 1, max: 3 });
   const time = Faker.random.number({ min: 17, max: 21 });
   // add variables to virtual user's context:
   userContext.vars.name = name;
@@ -24,4 +20,8 @@ const generateRandomData = (userContext, events, done) => {
   userContext.vars.party = party;
   userContext.vars.time = time;
   return done();
-}
+};
+
+module.exports = {
+  generateRandomData,
+};

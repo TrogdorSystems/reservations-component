@@ -14,6 +14,13 @@ const redisClient = require('./cache');
 const port = 8081;
 const hostname = '127.0.0.1';
 
+
+const statistics = {
+  cacheHit: 0,
+  cacheMiss: 0,
+  total: 0,
+};
+
 const server = http.createServer((req, res) => {
   const { method, url } = req;
   const renderComponent = (component, id) => {
@@ -26,15 +33,18 @@ const server = http.createServer((req, res) => {
   if (method === 'GET' && url === `/restaurants/${urlSplit[2]}/reservations/${urlSplit[4]}`) {
     const dateParam = urlSplit[4] || moment(new Date()).tz('America/Los_Angeles').format('YYYY-MM-DD');
     const redisKey = `${urlSplit[2]}${urlSplit[4]}`;
+    statistics.total += 1;
     redisClient.GET(redisKey, (err, response) => {
       if (response !== null && response !== undefined) {
+        statistics.cacheHit += 1;
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(response);
       } else {
+        statistics.cacheMiss += 1;
         db.genReservationSlots({ restaurantId: urlSplit[2], date: dateParam })
           .then((result) => {
             const stringifiedResult = JSON.stringify(result);
-            redisClient.SETEX(redisKey, 20, stringifiedResult);
+            redisClient.SETEX(redisKey, 30, stringifiedResult);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(stringifiedResult);
           })
@@ -47,10 +57,10 @@ const server = http.createServer((req, res) => {
   } else if (method === 'GET' && url === '/bundle.js') {
     fs.createReadStream('../client/dist/bundle.js').pipe(res);
   } else if (method === 'GET' && url === '/favicon.ico') {
-    res.writeHead(200, { 'Content-Type': 'image/webp' });
-    let image = fs.readFile('../client/dist/favicon.ico', () => {
-      res.end(image);
-    });
+    res.writeHead(200, { 'Content-Type': 'image/apng' });
+    fs.readFile('./client/dist/favicon.ico', (err, result) => (
+      err ? console.error(err) : res.end(result)
+    ));
   } else if (method === 'GET' && url === '/productionBundle.js') {
     fs.createReadStream('./client/dist/productionBundle.js').pipe(res);
   } else if (method === 'GET' && url === '/') {
@@ -58,11 +68,14 @@ const server = http.createServer((req, res) => {
     fs.createReadStream('./client/dist/productionBundle.js').pipe(res);
   } else if (method === 'POST' && url === '/reservations') {
     let body = '';
-    req.on('error', err => console.error(err));
+    req.on('error', (err) => { throw new Error(err); });
     req.on('data', (chunk) => {
       body += chunk;
     }).on('end', () => {
       const newBody = JSON.parse(body);
+      // newBody.restaurantId = Number(newBody.restaurantId);
+      // newBody.time = Number(newBody.time);
+      // newBody.party = Number(newBody.party);
       db.addReservation(newBody)
         .then(() => {
           const redisKey = `${newBody.restaurantId}${newBody.date}`;
@@ -80,6 +93,15 @@ const server = http.createServer((req, res) => {
         });
     });
   }
+});
+
+process.on('SIGINT', () => {
+  console.log(`
+  'CacheHit: '${statistics.cacheHit} 
+  CacheMiss: ${statistics.cacheMiss} 
+  ${statistics.cacheHit / statistics.total}%
+  `);
+  process.exit();
 });
 
 server.listen(port, hostname, () => console.log(`server listening on ${port}`));
