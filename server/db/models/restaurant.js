@@ -18,8 +18,9 @@ const restaurantSchema = mongoose.Schema({
     party: Number,
     timestamp: { type: Date, default: Date.now() },
   }],
-}).index({ id: 1 });
-restaurantSchema.index({ 'reservations.date': 1 });
+});
+// restaurantSchema.index({ id: 1 }, { background: true });
+// restaurantSchema.index({ 'reservations.date': 1 });
 
 const RestaurantModel = mongoose.model('restaurants', restaurantSchema);
 
