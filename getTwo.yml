@@ -1,8 +1,8 @@
 config:
-  target: 'http://localhost:8081'
+  target: 'http://ec2-54-219-137-44.us-west-1.compute.amazonaws.com'
   phases:
     - duration: 100
-      arrivalCount: 7500
+      arrivalCount: 9000
   processor: "./artilleryGet.js"
 scenarios:
   - flow:

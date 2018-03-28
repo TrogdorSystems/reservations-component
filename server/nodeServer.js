@@ -1,4 +1,5 @@
 require('newrelic');
+require('dotenv').config()
 const Reservation = require('../client/dist/productionBundle-server').default;
 const Html = require('../client/src/html');
 const { renderToString } = require('react-dom/server');
@@ -11,7 +12,7 @@ const path = require('path');
 const redisClient = require('./cache');
 
 const port = 8081;
-const hostname = '127.0.0.1';
+// const hostname = '127.0.0.1';
 
 
 const statistics = {
@@ -99,4 +100,4 @@ process.on('SIGINT', () => {
   process.exit();
 });
 
-server.listen(port, hostname, () => console.log(`server listening on ${port}`));
+server.listen(port, () => console.log(`server listening on ${port}`));

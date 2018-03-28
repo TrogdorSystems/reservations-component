@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(`mongodb://localhost/silverspoonMDB`, { poolSize: 10, autoIndex: false });
+// mongoose.connect(`mongodb://${process.env.MONGOHOST}/${process.env.MONGODATABASE}`, { poolSize: 10, autoIndex: false });
+mongoose.connect('mongodb://ec2-54-183-55-13.us-west-1.compute.amazonaws.com/silverspoonMDB', { poolSize: 10, autoIndex: false });
+
 const restaurantSchema = mongoose.Schema({
   id: {
     type: Number,
@@ -16,7 +18,8 @@ const restaurantSchema = mongoose.Schema({
     party: Number,
     timestamp: { type: Date, default: Date.now() },
   }],
-});
+}).index({ id: 1 });
+restaurantSchema.index({ 'reservations.date': 1 });
 
 const RestaurantModel = mongoose.model('restaurants', restaurantSchema);
 
@@ -28,8 +31,8 @@ const findById = id => (
 
 const getBookingsForDate = (id, date) => (
   findById(id)
-    .then(res => {
-      return res[0].reservations.filter(r =>
+    .then(res =>
+      (res[0].reservations.filter(r =>
         r.date.toISOString()
           .slice(0, r.date.toISOString().indexOf('T')) === date)
         .map(i => ({
@@ -37,8 +40,8 @@ const getBookingsForDate = (id, date) => (
           party: i.party,
           seats: res[0].seats,
         }))
-    })
-    .catch((err) => console.log(err))
+      ))
+    .catch(err => console.log(err))
 );
 
 const getMaxSeats = id => (

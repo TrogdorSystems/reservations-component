@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  web:
+    image: mdurfey/reservations
+    depends_on:
+      - mongo
+      - redis
+    ports:
+      - "8081:8081"
+    environment:
+      REDIS_HOST: redis
+      MONGOHOST: mongo
+      MONGODATABASE: silverspoonMDB
+  redis: 
+    ##get standard image from docker registry:
+    image: redis:latest
+  mongo:
+    ##get standard image from docker registry:
+    image: mongo:latest
+    ports: 
+      - "27017:27017"
