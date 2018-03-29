@@ -1,5 +1,5 @@
 require('newrelic');
-require('dotenv').config()
+require('dotenv').config();
 const Reservation = require('../client/dist/productionBundle-server').default;
 const Html = require('../client/src/html');
 const { renderToString } = require('react-dom/server');
