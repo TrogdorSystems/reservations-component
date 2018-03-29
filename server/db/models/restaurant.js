@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+// require('dotenv').config();
 
 // mongoose.connect(`mongodb://${process.env.MONGOHOST}/${process.env.MONGODATABASE}`, { poolSize: 10, autoIndex: false });
-mongoose.connect('mongodb://ec2-54-183-55-13.us-west-1.compute.amazonaws.com/silverspoonMDB', { poolSize: 10, autoIndex: false });
+mongoose.connect('mongodb://ec2-54-183-55-13.us-west-1.compute.amazonaws.com:27017/silverspoonMDB', { poolSize: 10, autoIndex: false });
 
 const restaurantSchema = mongoose.Schema({
   id: {
@@ -18,8 +18,9 @@ const restaurantSchema = mongoose.Schema({
     party: Number,
     timestamp: { type: Date, default: Date.now() },
   }],
-}).index({ id: 1 });
-restaurantSchema.index({ 'reservations.date': 1 });
+});
+// restaurantSchema.index({ id: 1 }, { background: true });
+// restaurantSchema.index({ 'reservations.date': 1 });
 
 const RestaurantModel = mongoose.model('restaurants', restaurantSchema);
 
